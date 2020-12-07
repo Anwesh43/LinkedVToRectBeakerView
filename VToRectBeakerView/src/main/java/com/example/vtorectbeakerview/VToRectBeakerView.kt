@@ -164,7 +164,7 @@ class VToRectBeakerView(ctx : Context) : View(ctx) {
         }
     }
 
-    data class VToRectBeakerView(var i : Int) {
+    data class VToRectBeaker(var i : Int) {
 
         private var curr : VTRBNode = VTRBNode(0)
         private var dir : Int = 1
@@ -184,6 +184,29 @@ class VToRectBeakerView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : VToRectBeakerView) {
+
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        private val vtrb : VToRectBeaker  = VToRectBeaker(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            vtrb.draw(canvas, paint)
+            animator.animate {
+                vtrb.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            vtrb.startUpdating {
+                animator.start()
+            }
         }
     }
 }

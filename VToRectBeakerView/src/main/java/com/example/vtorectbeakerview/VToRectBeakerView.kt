@@ -211,4 +211,13 @@ class VToRectBeakerView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : VToRectBeakerView {
+            val view : VToRectBeakerView = VToRectBeakerView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
